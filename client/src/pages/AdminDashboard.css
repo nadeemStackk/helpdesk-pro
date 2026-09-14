@@ -1,0 +1,155 @@
+.admin-tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 24px;
+  border-bottom: 1.5px solid var(--border);
+}
+
+.admin-tab {
+  padding: 10px 18px;
+  background: none;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink-soft);
+  border-bottom: 2px solid transparent;
+  transition: color 0.2s ease, border-color 0.2s ease;
+  margin-bottom: -1.5px;
+}
+
+.admin-tab:hover {
+  color: var(--primary-dark);
+}
+
+.admin-tab.active {
+  color: var(--primary);
+  border-bottom-color: var(--primary);
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 16px;
+}
+
+.stat-card {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  border-left: 4px solid var(--primary);
+}
+
+.stat-primary { border-left-color: var(--primary); }
+.stat-info { border-left-color: var(--info); }
+.stat-warning { border-left-color: var(--warning); }
+.stat-success { border-left-color: var(--success); }
+.stat-peach { border-left-color: var(--peach); }
+
+.stat-value {
+  font-family: 'Outfit', sans-serif;
+  font-size: 30px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.stat-label {
+  font-size: 13px;
+  color: var(--ink-soft);
+  font-weight: 600;
+}
+
+.users-table-wrap {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow-x: auto;
+}
+
+.users-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 640px;
+}
+
+.users-table th {
+  text-align: left;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  color: var(--ink-soft);
+  padding: 14px 18px;
+  border-bottom: 1.5px solid var(--border);
+}
+
+.users-table td {
+  padding: 14px 18px;
+  font-size: 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+.users-table tr:last-child td {
+  border-bottom: none;
+}
+
+.role-pill {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 999px;
+}
+
+.role-admin {
+  background: var(--peach-light);
+  color: #C2410C;
+}
+
+.role-user {
+  background: var(--primary-light);
+  color: var(--primary-dark);
+}
+
+.status-pill {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.status-pill.active { color: var(--success); }
+.status-pill.inactive { color: #DC2626; }
+
+.user-actions {
+  display: flex;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.table-action-btn {
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  color: var(--ink);
+  transition: all 0.2s ease;
+}
+
+.table-action-btn:hover {
+  border-color: var(--primary);
+  color: var(--primary-dark);
+}
+
+.table-action-btn.danger:hover {
+  border-color: #FECACA;
+  color: #DC2626;
+  background: #FEF2F2;
+}
+
+@media (max-width: 700px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
