@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://localhost:5000/api',
+  baseURL: 'https://helpdesk-pro-production-ebb0.up.railway.app/api',
 });
 
 // Attach the JWT to every request automatically, if we have one
