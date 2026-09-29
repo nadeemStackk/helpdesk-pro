@@ -17,12 +17,16 @@ const sanitizeUser = (user) => ({
 // @route  POST /api/auth/signup
 const signup = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, role } = req.body;
 
     const existingUser = await User.findOne({ email: email.toLowerCase() });
     if (existingUser) {
       return res.status(409).json({ message: 'An account with this email already exists' });
     }
+
+    // Security: signup can only create 'user' or 'admin'. 'superadmin' is NEVER accepted from client input.
+    const allowedSignupRoles = ['user', 'admin'];
+    const finalRole = allowedSignupRoles.includes(role) ? role : 'user';
 
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
@@ -31,7 +35,7 @@ const signup = async (req, res) => {
       name,
       email: email.toLowerCase(),
       password: hashedPassword,
-      role: 'user', // role is never taken from client input
+      role: finalRole,
     });
 
     const token = generateToken(user._id);

@@ -37,7 +37,10 @@ const authorize = (...roles) => {
       return res.status(403).json({ message: 'You do not have permission to perform this action' });
     }
     next();
+    // Treats both 'admin' and 'superadmin' as admin-level access
+const isAdminRole = (role) => role === 'admin' || role === 'superadmin';
   };
 };
+const isAdminRole = (role) => role === 'admin' || role === 'superadmin';
 
-module.exports = { protect, authorize };
+module.exports = { protect, authorize, isAdminRole };

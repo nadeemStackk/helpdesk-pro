@@ -9,6 +9,7 @@ const Signup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [role, setRole] = useState('user');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const { signup } = useAuth();
@@ -32,7 +33,7 @@ const Signup = () => {
     setError('');
     setLoading(true);
     try {
-      await signup(name, email, password);
+     await signup(name, email, password, role);
       navigate('/dashboard');
     } catch (err) {
       setError(err.response?.data?.message || 'Something went wrong. Please try again.');
@@ -140,6 +141,18 @@ const Signup = () => {
                 autoComplete="new-password"
               />
             </div>
+            <div className="form-group">
+  <label htmlFor="role">I want to sign up as</label>
+  <select
+    id="role"
+    value={role}
+    onChange={(e) => setRole(e.target.value)}
+    className="role-select"
+  >
+    <option value="user">User — I need support</option>
+    <option value="admin">Admin — I'll manage support tickets</option>
+  </select>
+</div>
 
             <motion.button
               type="submit"

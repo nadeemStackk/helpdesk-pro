@@ -1,5 +1,6 @@
 const Ticket = require('../models/Ticket');
 const Comment = require('../models/Comment');
+const { isAdminRole } = require('../middleware/auth');
 
 // @route  POST /api/tickets   (any logged-in user)
 const createTicket = async (req, res) => {
@@ -21,10 +22,10 @@ const createTicket = async (req, res) => {
 };
 
 // @route  GET /api/tickets
-// Users see only their own tickets. Admins see all tickets.
+// Users see only their own tickets. Admins & Superadmins see all tickets.
 const getTickets = async (req, res) => {
   try {
-    const filter = req.user.role === 'admin' ? {} : { createdBy: req.user._id };
+    const filter = isAdminRole(req.user.role) ? {} : { createdBy: req.user._id };
 
     const tickets = await Ticket.find(filter)
       .populate('createdBy', 'name email')
@@ -49,7 +50,7 @@ const getTicketById = async (req, res) => {
     }
 
     // Ownership check: a regular user can only view their own ticket
-    if (req.user.role !== 'admin' && ticket.createdBy._id.toString() !== req.user._id.toString()) {
+    if (!isAdminRole(req.user.role) && ticket.createdBy._id.toString() !== req.user._id.toString()) {
       return res.status(403).json({ message: 'You do not have access to this ticket' });
     }
 
@@ -65,7 +66,7 @@ const getTicketById = async (req, res) => {
 
 // @route  PUT /api/tickets/:id
 // Owner can edit title/description/category/priority (if not closed).
-// Admin can additionally change status and assignedTo.
+// Admin/Superadmin can additionally change status and assignedTo.
 const updateTicket = async (req, res) => {
   try {
     const ticket = await Ticket.findById(req.params.id);
@@ -74,7 +75,7 @@ const updateTicket = async (req, res) => {
     }
 
     const isOwner = ticket.createdBy.toString() === req.user._id.toString();
-    const isAdmin = req.user.role === 'admin';
+    const isAdmin = isAdminRole(req.user.role);
 
     if (!isOwner && !isAdmin) {
       return res.status(403).json({ message: 'You do not have access to this ticket' });
@@ -87,7 +88,7 @@ const updateTicket = async (req, res) => {
     if (category !== undefined) ticket.category = category;
     if (priority !== undefined) ticket.priority = priority;
 
-    // Only admins can change status or assignment
+    // Only admins/superadmins can change status or assignment
     if (isAdmin) {
       if (status !== undefined) ticket.status = status;
       if (assignedTo !== undefined) ticket.assignedTo = assignedTo || null;
@@ -109,7 +110,7 @@ const deleteTicket = async (req, res) => {
     }
 
     const isOwner = ticket.createdBy.toString() === req.user._id.toString();
-    const isAdmin = req.user.role === 'admin';
+    const isAdmin = isAdminRole(req.user.role);
 
     if (!isOwner && !isAdmin) {
       return res.status(403).json({ message: 'You do not have access to this ticket' });
@@ -133,7 +134,7 @@ const addComment = async (req, res) => {
     }
 
     const isOwner = ticket.createdBy.toString() === req.user._id.toString();
-    const isAdmin = req.user.role === 'admin';
+    const isAdmin = isAdminRole(req.user.role);
 
     if (!isOwner && !isAdmin) {
       return res.status(403).json({ message: 'You do not have access to this ticket' });

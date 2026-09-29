@@ -14,6 +14,10 @@ const signupValidation = [
   body('password')
     .isLength({ min: 6 })
     .withMessage('Password must be at least 6 characters long'),
+  body('role')
+    .optional()
+    .isIn(['user', 'admin'])
+    .withMessage('Invalid role selected'),
   handleValidation,
 ];
 
