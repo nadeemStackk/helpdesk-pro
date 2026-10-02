@@ -12,6 +12,7 @@ const app = express();
 
 const allowedOrigins = [
   'http://localhost:5173',
+  "https://helpdesk-pro-git-main-muhammad-nadeems-projects-e7bd1dbc.vercel.app",
   process.env.CLIENT_URL,
 ].filter(Boolean);
 
