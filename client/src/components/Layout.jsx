@@ -3,6 +3,7 @@ import { Outlet, Link, useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
 import ConfirmModal from './ConfirmModal';
+import Logo from './landing/Logo';
 import './Layout.css';
 
 const Layout = () => {
@@ -26,8 +27,7 @@ const Layout = () => {
   return (
     <div className="app-shell">
       <header className="navbar">
-        <div className="navbar-logo">HelpDesk<span>Pro</span></div>
-
+    <Logo size="medium" />
         <nav className="navbar-links">
           {navLink('/dashboard', 'My Tickets')}
           {isAdmin && navLink('/admin', 'Admin Dashboard')}
